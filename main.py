@@ -90,20 +90,20 @@ if __name__ == '__main__':
     cosine_df = make_cosine_matrix(tfidf_matrix)
 
     ######Execute example########
-    #Input: keyword, output: stock_name
+    #Input: keyword, topN  output: stock_name
     show_stocks('코로나', 15)
-    show_stocks('클라우드', 10)
+    show_stocks('코인', 10)
     show_stocks('게임', 10)
     show_stocks('폭염', 10)
     show_stocks('배당', 10)
 
-    #Input: stock_name, output: keyword
-    show_relation_stocks('데브시스터즈', 5)
-    show_relation_stocks('기아', 10)
+    #Input: stock_name, topN output: keyword
     show_relation_stocks('위메이드', 10)
+    show_relation_stocks('신일전자', 5)
+    show_relation_stocks('데브시스터즈', 5)
 
-    #Input: stock_name, output: wordcloud
+    #Input: stock_name,topN output: wordcloud
     make_wordcloud('에쎈테크', 20)
     make_wordcloud('신일전자', 20)
-    make_wordcloud('신일전자', 20)
+    make_wordcloud('위메이드', 20)
     make_wordcloud('데브시스터즈', 20)

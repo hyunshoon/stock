@@ -2,7 +2,7 @@ import pandas as pd
 from pykrx import stock
 
 if __name__ == '__main__':
-    date = '20220513'#이 날짜 기준으로 데이터 수집
+    date = '20220527'#이 날짜 기준으로 데이터 수집
 
     kospi_ticker = stock.get_market_ticker_list(date, market = 'KOSPI')#2021/11/24에 상장된 코스피 종목 티커
     kosdaq_ticker = stock.get_market_ticker_list(date, market = 'KOSDAQ')
@@ -20,4 +20,4 @@ if __name__ == '__main__':
     stock_df.id = range(len(tickers))
     stock_df.set_index('id', inplace=True)
     print(stock_df)
-    stock_df.to_csv('./data/stock_list.csv',encoding='CP949')
+    stock_df.to_csv('./data/stock_list.csv',encoding='utf-8')

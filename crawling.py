@@ -4,11 +4,8 @@ from konlpy.tag import Okt
 import requests
 import matplotlib.font_manager as fm
 
-
-okt = Okt()
-path_font = './data/NanumGothic.ttf'#font_path
+path_font = './data/NanumGothic.ttf'  # font_path
 path = "./data/stock_text"
-font_name = fm.FontProperties(fname=path_font, size=10).get_name()
 
 def urlToList_news_dart(url):
   response = requests.get(url)
@@ -58,11 +55,17 @@ def download_txt(name_list, code_list):
       if url[1]=='news':
         lines = urlToList_news_dart(url[0])
         term_list += lines
-    print(f'{name_list[i]}완료')
+    print(f'{name_list[i]} 완료')
+    if i%10 == 9: #중간에 끊기는 것 예방하기 위해 temp 저장
+      temp = pd.DataFrame([word_list], columns=name_list[:i])
+      temp.to_csv(f'{path}/temp_stock_texts.csv', encoding='utf-8')
     word_list.append(term_list)
   return pd.DataFrame([word_list], columns=name_list)
 if __name__ == '__main__':
-    stock_list = pd.read_csv('./data/stock_list.csv', index_col=0,encoding='utf-8')
-    df = download_txt(stock_list.name[:100], stock_list.ticker[:100])
-    df.to_csv(f'{path}/stock_texts.csv', encoding='utf-8')
+  okt = Okt()
+  font_name = fm.FontProperties(fname=path_font, size=10).get_name()
+
+  stock_list = pd.read_csv('./data/stock_list.csv', index_col=0,encoding='utf-8')
+  df = download_txt(stock_list.name, stock_list.ticker)
+  df.to_csv(f'{path}/stock_texts.csv', encoding='utf-8')
 
