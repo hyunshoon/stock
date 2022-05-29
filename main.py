@@ -62,6 +62,16 @@ def show_stocks(keyword, topN):
 def show_relation_stocks(keyword, topN):
     print(cosine_df[keyword].sort_values(ascending=False)[:topN])
 
+def make_wordcloud(name, topN):
+    try:
+        dict_top = dict(word_matrix.loc[name].sort_values(ascending = False)[:topN]*100)
+        del dict_top[name]#해당 종목 이름 제거
+    except KeyError:pass
+
+    wc = WordCloud(font_path='./data/NanumGothic.ttf', relative_scaling=0.2,background_color='white').generate_from_frequencies(dict_top)
+    plt.imshow(wc)
+    plt.savefig(f'./png/{name}_wordcloud.png')
+
 if __name__ == '__main__':
     okt = Okt()
     total_word_df = pd.read_csv('./data/stock_text/stock_texts.csv', index_col=0)
@@ -79,12 +89,21 @@ if __name__ == '__main__':
 
     cosine_df = make_cosine_matrix(tfidf_matrix)
 
-
-    #Execute
+    ######Execute example########
+    #Input: keyword, output: stock_name
     show_stocks('코로나', 15)
     show_stocks('클라우드', 10)
-    show_stocks('코로나', 10)
+    show_stocks('게임', 10)
+    show_stocks('폭염', 10)
+    show_stocks('배당', 10)
 
+    #Input: stock_name, output: keyword
     show_relation_stocks('데브시스터즈', 5)
     show_relation_stocks('기아', 10)
     show_relation_stocks('위메이드', 10)
+
+    #Input: stock_name, output: wordcloud
+    make_wordcloud('에쎈테크', 20)
+    make_wordcloud('신일전자', 20)
+    make_wordcloud('신일전자', 20)
+    make_wordcloud('데브시스터즈', 20)
